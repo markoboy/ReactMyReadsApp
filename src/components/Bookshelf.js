@@ -10,7 +10,7 @@ class Bookshelf extends Component {
 
 	render() {
 		// Store the title, shelf and books for easier use.
-		const { title, shelf, books } = this.props;
+		const { title, shelf, books, onBookMove } = this.props;
 
 		// Show the books from the picked shelf.
 		let showingBooks = books.filter( book => book.shelf === shelf);
@@ -26,7 +26,7 @@ class Bookshelf extends Component {
 									<div className="book-top">
 										<div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url(${book.imageLinks.thumbnail})` }}></div>
 										<div className="book-shelf-changer">
-											<select>
+											<select value={shelf} onChange={(e) => onBookMove(book, e.target.value)}>
 												<option value="move" disabled>Move to...</option>
 												<option value="currentlyReading">Currently Reading</option>
 												<option value="wantToRead">Want to Read</option>

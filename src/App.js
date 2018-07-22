@@ -22,7 +22,32 @@ class BooksApp extends React.Component {
     });
   }
 
+  updateBookshelf = (book, shelf) => {
+    // Change the shelf of the book.
+    BooksAPI.update(book, shelf).then( () => {
+      book.shelf = shelf;
+      this.setState( state => ({
+        books: state.books.filter( b => b.id !== book.id).concat([ book ])
+      }));
+    });
+  };
+
   render() {
+    const bookShelves = [
+      {
+        title: 'Currently Reading',
+        shelf: 'currentlyReading'
+      },
+      {
+        title: 'Want to Read',
+        shelf: 'wantToRead'
+      },
+      {
+        title: 'Read',
+        shelf: 'read'
+      }
+    ];
+
     return (
       <div className="app">
         {this.state.showSearchPage ? (
@@ -53,9 +78,15 @@ class BooksApp extends React.Component {
             </div>
             <div className="list-books-content">
               <div>
-                <Bookshelf title="Currently Reading" shelf="currentlyReading" books={this.state.books} />
-                <Bookshelf title="Want to Read" shelf="wantToRead" books={this.state.books} />
-                <Bookshelf title="Read" shelf="read" books={this.state.books} />
+                {bookShelves.map( shelf => (
+                  <Bookshelf
+                    key={shelf.shelf}
+                    title={shelf.title}
+                    shelf={shelf.shelf}
+                    books={this.state.books}
+                    onBookMove={this.updateBookshelf}
+                  />
+                ))}
               </div>
             </div>
             <div className="open-search">
