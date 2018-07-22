@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import SortBy from 'sort-by';
 
 class Bookshelf extends Component {
 	static propTypes = {
@@ -14,6 +15,7 @@ class Bookshelf extends Component {
 
 		// Show the books from the picked shelf.
 		let showingBooks = books.filter( book => book.shelf === shelf);
+		showingBooks.sort(SortBy('title'));
 
 		return (
 			<div className="bookshelf">
