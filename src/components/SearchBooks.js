@@ -78,7 +78,7 @@ class SearchBooks extends Component {
 				<div className="search-books-results">
 					{books.length === 0 && query && (
 						<div className="search-no-results">
-							<span>No results were found. Please check the <strong>Search Terms</strong> file.</span>
+							<span>No results were found for <em>"{query}"</em>. Please check for white spaces or check the <strong>Search Terms</strong> file.</span>
 						</div>
 					)}
 					{books.length !== 0 && query && (
