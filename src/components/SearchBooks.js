@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import * as BooksAPI from '../BooksAPI';
+import BookListItem from './BookListItem';
 import sortBy from 'sort-by';
 
 class SearchBooks extends Component {
@@ -16,7 +17,7 @@ class SearchBooks extends Component {
 	}
 
 	updateQuery = (query) => {
-		this.setState({ query: query }, this.getBooks(query));
+		this.setState({ query: query.replace(/\s\s+/g, ' ') }, this.getBooks(this.state.query));
 	};
 
 	clearQuery = () => {
@@ -27,6 +28,7 @@ class SearchBooks extends Component {
 		if (query) {
 			BooksAPI.search(query).then( books => {
 				if (books && !books.error) {
+					books.map( book => (this.props.shelfBooks.filter(b => b.id === book.id).map(b => book.shelf = b.shelf)));
 					books.sort(sortBy('title'));
 					this.setState({ books });
 				} else {
@@ -40,11 +42,19 @@ class SearchBooks extends Component {
 					this.getBooks(this.state.query);
 				}
 			});
+		} else {
+			/* Request for animation frame so that the this.state.query has get its value.
+			 * Fix for double whitespaces.
+			 */
+			requestAnimationFrame(timestamp => {
+				this.state.query && this.getBooks(this.state.query);
+			});
 		}
 	};
 
 	render() {
 		const { query, books } = this.state;
+		const { onBookMove } = this.props;
 
 		return (
 			<div className="search-books">
@@ -73,7 +83,7 @@ class SearchBooks extends Component {
 					)}
 					<ol className="books-grid">
 						{books.map( book => (
-							<li key={book.id}>{book.title}</li>
+							<BookListItem key={book.id} book={book} onBookMove={onBookMove} />
 						))}
 					</ol>
 				</div>
