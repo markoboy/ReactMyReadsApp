@@ -16,6 +16,12 @@ class SearchBooks extends Component {
 			this.setState({ books: [] });
 	}
 
+	componentDidMount() {
+		// Set the focus to the search bar when the component loads.
+		const search = document.querySelector('.search-books-bar input');
+		search.focus();
+	}
+
 	updateQuery = (query) => {
 		this.setState({ query: query.replace(/\s\s+/g, ' ') }, this.getBooks(this.state.query));
 	};
