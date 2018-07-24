@@ -26,7 +26,7 @@ This is a simple project and is made in order to test our skills in React and cr
 [(Back to top)](#table-of-contents)
 
 - Download the repository from the download button.
-- Or clone the repository with Git `$ git clone `.
+- Or clone the repository with Git `$ git clone https://github.com/markoboy/ReactMyReadsApp.git`.
 - Run `$ npm install` to install the project's dependecies.
 - Run `$ npm start` to start the development server on your machine.
 - Then your default browser will open a page on your `localhost` with the page.
